@@ -1,0 +1,32 @@
+{
+  "name": "financeflow-backend",
+  "version": "1.0.0",
+  "description": "FinanceFlow Pro - AWS Lambda Backend",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "deploy:prod": "serverless deploy --stage prod",
+    "remove": "serverless remove",
+    "logs": "serverless logs -f",
+    "test": "serverless invoke local -f"
+  },
+  "keywords": [
+    "serverless",
+    "aws",
+    "lambda",
+    "finance",
+    "dynamodb"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1500.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "serverless": "^3.38.0",
+    "serverless-offline": "^13.3.0"
+  }
+}

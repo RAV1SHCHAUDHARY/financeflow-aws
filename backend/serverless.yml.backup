@@ -1,0 +1,146 @@
+service: financeflow-backend
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: dev
+  
+  environment:
+    USERS_TABLE: FinanceFlow-Users-dev
+    EXPENSES_TABLE: FinanceFlow-Expenses-dev
+    JWT_SECRET: ${env:JWT_SECRET}
+  
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:us-east-1:*:table/FinanceFlow-Users-dev
+            - arn:aws:dynamodb:us-east-1:*:table/FinanceFlow-Users-dev/index/*
+            - arn:aws:dynamodb:us-east-1:*:table/FinanceFlow-Expenses-dev
+            - arn:aws:dynamodb:us-east-1:*:table/FinanceFlow-Expenses-dev/index/*
+
+functions:
+  register:
+    handler: functions/auth/register.handler
+    events:
+      - http:
+          path: auth/register
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  login:
+    handler: functions/auth/login.handler
+    events:
+      - http:
+          path: auth/login
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  createExpense:
+    handler: functions/expenses/create.handler
+    events:
+      - http:
+          path: expenses
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+          authorizer:
+            name: authorizerFunc
+            type: request
+            resultTtlInSeconds: 0
+
+  listExpenses:
+    handler: functions/expenses/list.handler
+    events:
+      - http:
+          path: expenses
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+          authorizer:
+            name: authorizerFunc
+            type: request
+            resultTtlInSeconds: 0
+
+  deleteExpense:
+    handler: functions/expenses/delete.handler
+    events:
+      - http:
+          path: expenses/{id}
+          method: delete
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+          authorizer:
+            name: authorizerFunc
+            type: request
+            resultTtlInSeconds: 0
+
+  getProfile:
+    handler: functions/user/getProfile.handler
+    events:
+      - http:
+          path: user/profile
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+          authorizer:
+            name: authorizerFunc
+            type: request
+            resultTtlInSeconds: 0
+
+  updateProfile:
+    handler: functions/user/updateProfile.handler
+    events:
+      - http:
+          path: user/profile
+          method: put
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+          authorizer:
+            name: authorizerFunc
+            type: request
+            resultTtlInSeconds: 0
+
+  authorizerFunc:
+    handler: functions/authorizer/authorize.handler
