@@ -179,7 +179,7 @@ aws s3 sync dist/ s3://your-bucket/ --delete
 ## 👨‍💻 Author
 
 **[Your Name]**  
-[Portfolio](https://your-site.com) • [LinkedIn](https://linkedin.com/in/yourprofile) • [GitHub](https://github.com/yourusername)
+• [GitHub](https://github.com/RAV1SHCHAUDHARY)
 
 ---
 
