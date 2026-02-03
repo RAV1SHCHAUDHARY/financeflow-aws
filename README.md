@@ -8,7 +8,7 @@
 
 ## 🌟 Live Demo
 
-**Application:** http://financeflow-rav-2026.s3-website-us-east-1.amazonaws.com
+**Application:** https://tinyurl.com/financeflow-pro
 
 ---
 
